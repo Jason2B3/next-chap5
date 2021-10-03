@@ -11,10 +11,15 @@ export default function HomePage(props) {
   );
 }
 export async function getStaticProps(context) {
-  // this is an absolute url, but I keep getting an error saying TypeError: Only absolute URL's are supported
-  const response = await fetch("/data.json"); 
-  // const response = await fetch("http://localhost:3000/data.json"); 
-  const parsedInfo = response.json();
+  const baseURL = "http://localhost:3000";
+  const response = await fetch(new URL("data.json", baseURL), {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  // const response = await fetch("http://localhost:3000/data.json");  // doesn't work either
+  const parsedInfo = await response.json(); // error here
   return { props: { jsonData: parsedInfo } };
 }
 // INTENTION ▼ ▼
