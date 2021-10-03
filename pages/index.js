@@ -1,18 +1,27 @@
+export async function getStaticProps(context) {
+  const request = await fetch(
+    "https://todo-list-1-befa6-default-rtdb.firebaseio.com/data.json"
+  );
+  const data = await request.json();
+  return { props: { counterValue: data.counter }, revalidate: 1 }; // supply findings as rhe comp ƒ()'s props
+}
+
 export default function HomePage(props) {
-  console.log(props)
+  console.log(props);
+
   return (
-    <ul>
-      <li>Product 1</li>
-      <li>Product 2</li>
-      <li>{props.data[0].name}</li>
-      <li>Product 3</li>
-    </ul>
+    <>
+      {/* <button onClick={firebasePOST}>POST</button> */}
+      <h1>Firebase Demonstration</h1>
+      <p>A Firebase realtime database has a value saved named counterValue</p>
+      <h3>Current Value: {props.counterValue}</h3>
+      <p>
+        Change the value manually by opening the database yourself then check to
+        see how it updates in this webpage
+      </p>
+      <a href="https://console.firebase.google.com/u/2/project/todo-list-1-befa6/database/todo-list-1-befa6-default-rtdb/data">
+        Visit database
+      </a>
+    </>
   );
 }
-export async function getServerSideProps(context) {
-  // Place all backend code here, then return props based on what you fetch
-  const mockEndpoint= 'https://jsonplaceholder.typicode.com/users'  
-  const response = await fetch(mockEndpoint);
-  const data = await response.json();
-  return {props: {data: data}} // return props 
-} // search this URL to view whats inside this dummy hosted JSON file
